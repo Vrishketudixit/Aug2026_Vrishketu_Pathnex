@@ -1,0 +1,195 @@
+---
+- name: Install and start nginx
+  hosts: all 
+  become: yes
+ 
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Start and enable Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
+
+
+
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+}
+
+provider "aws" {
+   region = "us-east-1"
+}
+resource "aws_instance" "pathnex_ec2" {
+  ami     = "ami-0c02fb55956c7d316"
+  instance_type = "t3.micro"
+
+  tags = {
+    Owner = "PathnexStudent"
+    Name = "Pathnex-EC2"
+  }
+}
+
+
+# Multi-Environment Pipeline
+
+## 🔹 Jenkins Pipeline — Deploy to Multiple Environments
+You will learn how to **define multiple environment deployments in one pipeline**.
+
+pipeline {
+    agent any
+    environment {
+        INSTITUTE_NAME = "Pathnex"
+    }
+    stages {
+        stage('Deploy to Dev') {
+            steps {
+                sh 'echo "Deploying $INSTITUTE_NAME to Dev environment"'
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                input message: "Approve Staging Deployment?"
+                sh 'echo "Deploying $INSTITUTE_NAME to Staging environment"'
+            }
+        }
+        stage('Deploy to Prod') {
+            steps {
+                input message: "Approve Prod Deployment?"
+                sh 'echo "Deploying $INSTITUTE_NAME to Prod environment"'
+            }
+        }
+    }
+}
+
+
+# Multi-Environment Pipeline
+
+## Jenkins Pipeline - Deploy to Multiple Environments
+You will Learn how to ** define multiple environment deployment in one pipeline **
+pipeline {
+    agent any 
+    environment {
+        INSTITUTE_NAME = "Pathnex"
+    }
+    stages {
+        stage('Deploy to Dev') {
+            steps {
+                sh 'echo "Deploying $INSTITUTE_NAME to Dev environment"'
+              }
+        }
+        stage('Deploy to staging'){
+            steps {
+                input message: "Approve Staging and Deployment?"
+                sh 'echo "Deploying $INSTITUTE_NAME to staging environment"'
+               }
+        }
+        stage('Deploy to Prod') {
+            steps {
+                input message: "Aprrove Prod Deployment?"
+                sh 'echo "Deploying $INSTITUTE_NAME to prod environment"'
+            }   
+        }
+    }
+}
+
+
+
+
+## GitLab CI - Multi-Environment
+You will learn how to ** define multiple environment deployments in GitLab CI**
+
+stages:
+   - deploy
+
+variables:
+  INSTITUTE_NAME: "Pathnex"
+
+deploy-dev:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Deploying $INSTITUTE_NAME to Dev environment"
+
+deploy-staging:
+  stage: deploy
+  iamge: alpine:latest
+  script:
+    - echo "Deploying $INSTITUTE_NAME to Staging environment"
+  when: manual
+
+deploy-prod:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Deplying $INSTITUTE_NAME to Prod environment"
+ when: manual
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
