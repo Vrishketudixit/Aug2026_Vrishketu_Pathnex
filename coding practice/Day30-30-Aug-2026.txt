@@ -1,0 +1,27 @@
+
+# Configure AWS Provider
+provider "aws" {
+  region = "ap-south-1" # Change to your preferred region
+}
+
+resource "aws_instance" "pathnex" {
+  ami  = "ami-0f559c3642608c138" 
+  instance_type = "t3.micro"
+  count  = 3
+  key _name =  "Pathnex-ec2-key"
+  subnet_id  = "subnet-060e30fbb2ff857"
+  vpc_securtiy_group_ids = ["sg-006c76c9849e09"]
+  tags = {
+    Name = "pathnex-ec2-1"
+  }
+}
+
+output "ec2_public_ips" {
+  value = aws_instance.pathnex[*].public_ip
+}
+
+
+
+
+
+
